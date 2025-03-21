@@ -6,3 +6,8 @@ export interface Menu{
     description:string
     quantity:number
 }
+export interface Payload{
+    username:string,
+    password:string,
+    items:Menu[]
+}

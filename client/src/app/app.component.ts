@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Menu } from './models';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  cart:Menu[]=[]
+  updateCart(event:any){
+    this.cart = event.value
+  }
+  
 }
