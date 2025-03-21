@@ -9,7 +9,9 @@ use restaurant;
 
 create table customers (
   username varchar(64) not null,
-  password varchar(128) not null
+  password varchar(128) not null,
+  primary key (username)
+
 );
 
 insert into customers(username, password) values
@@ -21,3 +23,12 @@ insert into customers(username, password) values
 
 -- TODO: Task 1.2
 -- Write your task 1.2 below
+create table place_orders(
+  order_id char(8) not null,
+  payment_id varchar(128) not null unique,
+  order_date date not null,
+  total Decimal(8,2) not null,
+  username varchar(128) not null,
+  primary key (order_id),
+  constraint fk_username foreign key (username) references customers(username) on delete cascade
+)

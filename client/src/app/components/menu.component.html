@@ -1,35 +1,38 @@
 <div class="row mt-3">
   <div class="col d-flex justify-content-between align-items-center">
-    <div class="fs-1 fw-bold text-primary">Menu ($XXX)</div>
+    <div class="fs-1 fw-bold text-primary">Menu ({{totalCost | currency}})</div>
     <div>
       <button type="button" class="btn btn-primary">
-        Place Order (XXX)
+        Place Order ({{orderTally}})
       </button>
     </div>
   </div>
 </div>
-
+@for(item of menuItems; track $index){
 <!-- each row display a single mene item -->
 <div class="row mb-2">
   <div class="col">
     <div class="menu-item">
       <div>
-        <button type="button" class="btn btn-warning">
+        <button type="button" class="btn btn-warning" (click)="removeItemFromCart(item, $index)">
           <i class="bi bi-x-square"></i>
         </button>
       </div>
       <div class="menu-details">
-        <div>Name: <span class="fw-bold"> XXX </span> </div>
+        <div>Name: <span class="fw-bold"> {{item.name}} </span> </div>
         <div>Description:
           <span class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            {{item.description}}
           </span>
         </div>
-        <div></div>
-          <div class="text-danger fw-bold">Quantity: XXX</div>
+        <div>Price: <span class="fw-bold"> {{item.price| currency}} </span> </div>
+        @if(item.quantity>0){
+          <div class="text-danger fw-bold">Quantity:{{item.quantity}}</div>
+        }
+
       </div>
       <div class="menu-button-end">
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-success" (click)="addItemToCart(item, $index)">
           <i class="bi bi-plus-circle"></i>
         </button>
       </div>
@@ -37,29 +40,4 @@
   </div>
 </div>
 
-<div class="row mb-2">
-  <div class="col">
-    <div class="menu-item">
-      <div>
-        <button type="button" class="btn btn-warning">
-          <i class="bi bi-x-square"></i>
-        </button>
-      </div>
-      <div class="menu-details">
-        <div>Name: <span class="fw-bold"> XXX </span> </div>
-        <div>Description:
-          <span class="fst-italic">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </span>
-        </div>
-        <div></div>
-          <div class="text-danger fw-bold">Quantity: XXX</div>
-      </div>
-      <div class="menu-button-end">
-        <button type="button" class="btn btn-success">
-          <i class="bi bi-plus-circle"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+}
