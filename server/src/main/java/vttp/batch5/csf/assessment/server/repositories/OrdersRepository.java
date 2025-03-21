@@ -2,6 +2,7 @@ package vttp.batch5.csf.assessment.server.repositories;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -66,8 +67,16 @@ public void insertIntoMySQL(Float total, UserDetails userDetails, String payment
 public void insertIntoMongoDb(Float payment, UserDetails userDetails, String payment_id, String order_id, Long timestamp,
         List<Menu> cart) {
         //native mongo query - batch insert?
+               Document doc = new Document();
+               doc.put("__id", userDetails.getUuid());
+               doc.put("payment_id",payment_id);
+               doc.put("username",userDetails.getUsername());
+               doc.put("total",payment);
+               doc.put("timestamp",timestamp);
+               doc.put("items",cart);
+              mongoTemplate.insert(doc, "orders");
+        }
         
 
 }
   
-}
