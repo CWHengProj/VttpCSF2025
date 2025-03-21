@@ -20,8 +20,8 @@ import vttp.batch5.csf.assessment.server.repositories.OrdersRepository;
 public class RestaurantService {
 @Autowired
 OrdersRepository ordersRepository;
-@Autowired
-RestTemplate restTemplate;
+// @Autowired
+// RestTemplate restTemplate;
 
   // TODO: Task 2.2
   // You may change the method's signature
@@ -48,7 +48,8 @@ RestTemplate restTemplate;
       headers.set("Accept", "application/json");
       headers.set("X-Authenticate", userDetails.getUsername());      
       HttpEntity<String> requestEntity = new HttpEntity<>(messageToServer.toString(), headers);
-      ResponseEntity<String> response =restTemplate.postForEntity(url, requestEntity, String.class);
+      // ResponseEntity<String> response =restTemplate.postForEntity(url, requestEntity, String.class);
+      String response="having some issues with restTemplate that i couldnt fix last minute, remove it to see if app works";
       return response.getBody();
 
   }
