@@ -20,8 +20,9 @@ COPY server/src src
 COPY server/mvnw .
 COPY server/pom.xml .
 COPY server/.mvn .mvn
+COPY server/mvnw .
 RUN chmod a+x mvnw
-RUN ./mvnw package -Dtest.skip=true
+RUN mvnw package -Dmaven.test.skip=true
 
 #Stage 3 - execution of the jar file
 FROM openjdk:23

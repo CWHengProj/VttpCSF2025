@@ -1,21 +1,19 @@
 package vttp.batch5.csf.assessment.server.controllers;
 
+import java.io.StringReader;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import vttp.batch5.csf.assessment.server.model.Menu;
 import vttp.batch5.csf.assessment.server.model.UserDetails;
 import vttp.batch5.csf.assessment.server.services.Misc;
@@ -28,8 +26,7 @@ public class RestaurantController {
 RestaurantService restaurantService;
 @Autowired
 Misc misc;
-@Autowired
-RestTemplate restTemplate;
+
   // TODO: Task 2.2
   // You may change the method's signature
   @GetMapping("/menu")
@@ -52,23 +49,23 @@ RestTemplate restTemplate;
     //go to the endpoint and request using restTemplate 
     //get the following values to send to the user database
     Float payment = misc.getTotalBill(payload);
-    // String url = "https://payment-service-production-a75a.up.railway.up";
-    String url="heehee";
-    //
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-    MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-    map.add("email", "first.last@example.com");
-
-    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-
-    ResponseEntity<String> response = restTemplate.postForEntity( url, request , String.class );
-    //order_id, payer, payee, payment - just the value of all items
-    // header called X-authenticate - same name as payer
-    //insert the values into the serve database (mysql and mongodb)
-    //return payment to the client based off the results
+    String url = "https://payment-service-production-a75a.up.railway.up";
+    String responseFromServer =restaurantService.getPaymentResponse(userDetails,payment,url);
+    JsonObject job = Json.createReader(new StringReader(responseFromServer)).readObject();
+    //turn the payload into an object, catch any errors. if it throws error return the error
+    try{
+      String payment_id = job.getString("payment_id");
+      String order_id = job.getString("order_id");
+      Long timestamp = Long.parseLong(job.getString("payment_id"));
+      //insert the values into the serve database (mysql and mongodb)
+      restaurantService.insertintoDB(payment,userDetails,payment_id,order_id,timestamp,cart);
+      return ResponseEntity.status(200).body("success!");
+    }
+    catch (Exception e){
+      return ResponseEntity.status(500).body(e.getMessage());
+      
+    }
     
-    return ResponseEntity.ok("{}");
+    
   }
 }

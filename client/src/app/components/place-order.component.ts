@@ -56,7 +56,10 @@ export class PlaceOrderComponent implements OnInit{
   
     }
     this.http.post<string>(`/api/food_order`,payload).subscribe(
-      {next: (data)=>console.log(data),
+      {next: (data)=>
+        {console.log(data),
+          this.route.navigate(['confirmation'])
+        },
         error:(err) => {console.log(err)
           window.alert("Unauthorized user! You are under arrest")
         }

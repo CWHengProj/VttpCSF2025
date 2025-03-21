@@ -31,8 +31,6 @@ public class OrdersRepository {
       query.with(Sort.by(Sort.Direction.ASC, "name"));      
       return mongoTemplate.find(query, Menu.class);
   }
-
-
   // TODO: Task 4
   // Write the native MongoDB query for your access methods in the comment below
   //
@@ -55,5 +53,21 @@ public class OrdersRepository {
       return false;
     }
     return false;
+  } 
+  //insert the information into the database for both databases
+public void insertIntoMySQL(Float total, UserDetails userDetails, String payment_id, String order_id, Long timestamp,
+        List<Menu> cart) {
+          final String insertIntoPlaceOrders= """
+                insert into place_orders values
+                (?,?,?,?,?)
+              """;
+        jdbcTemplate.update(insertIntoPlaceOrders, order_id,payment_id,timestamp,total,userDetails.getUsername());
 }
+public void insertIntoMongoDb(Float payment, UserDetails userDetails, String payment_id, String order_id, Long timestamp,
+        List<Menu> cart) {
+        //native mongo query - batch insert?
+        
+
+}
+  
 }

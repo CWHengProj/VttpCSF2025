@@ -6,7 +6,7 @@
     </div>
   </div>
 </div>
-
+<!-- all the details here should be dynamic: -->
 <div class="row mt-2">
   <div class="col">
     <p> Your order details are below</p>
@@ -14,19 +14,19 @@
       <tbody>
         <tr>
           <td>Date:</td>
-          <td> <code>Friday, March 21 2025</code> </td>
+          <td> <code>{{response.date}}</code> </td>
         </tr>
         <tr>
           <td>Order Id:</td>
-          <td> <code>abc123</code> </td>
+          <td> <code>{{response.orderId}}</code> </td>
         </tr>
         <tr>
           <td>Payment Id:</td>
-          <td> <code>xyz789</code> </td>
+          <td> <code>{{response.paymentId}}</code> </td>
         </tr>
         <tr>
           <td>Total:</td>
-          <td> <code>$12.00</code> </td>
+          <td> <code>{{response.total | currency}}</code> </td>
         </tr>
       </tbody>
     </table>
