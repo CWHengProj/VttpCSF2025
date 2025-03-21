@@ -15,7 +15,7 @@ RUN ng build
 FROM openjdk:23 AS springbootpackage
 WORKDIR /server
 #copy from angular package the built package into the static folder
-COPY --from=angularpackage client/dist/client-side/browser src/main/resources/static
+COPY --from=angularpackage client/dist/client/browser src/main/resources/static
 COPY server/src src
 COPY server/mvnw .
 COPY server/pom.xml .
