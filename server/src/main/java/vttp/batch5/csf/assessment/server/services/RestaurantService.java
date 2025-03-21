@@ -48,10 +48,11 @@ OrdersRepository ordersRepository;
       headers.set("Accept", "application/json");
       headers.set("X-Authenticate", userDetails.getUsername());      
       HttpEntity<String> requestEntity = new HttpEntity<>(messageToServer.toString(), headers);
-      // ResponseEntity<String> response =restTemplate.postForEntity(url, requestEntity, String.class);
-      String response="having some issues with restTemplate that i couldnt fix last minute, remove it to see if app works";
-      // return response.getBody();
-      return response;
+      RestTemplate restTemplate = new RestTemplate();
+      ResponseEntity<String> response =restTemplate.postForEntity(url, requestEntity, String.class);
+      // String response="having some issues with restTemplate that i couldnt fix last minute, remove it to see if app works";
+      return response.getBody();
+      // return response;
 
   }
   public void insertintoDB(Float payment, UserDetails userDetails, String payment_id, String order_id, Long timestamp, List<Menu> cart){
